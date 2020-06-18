@@ -3,11 +3,11 @@ const path = require('path')
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
-let target = 'http://www.gsxzph315.com/'
+// let target = 'http://www.gsxzph315.com/'
 // let target = 'https://blog.csdn.net/superKM';
-if (process.env.NODE_ENV === 'production') {
-  target = ''
-}
+// if (process.env.NODE_ENV === 'production') {
+//   target = ''
+// }
 module.exports = {
   // 选项...
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/', // 部署服务器路径
@@ -86,17 +86,27 @@ module.exports = {
     // 设置代理
     proxy: {
       // 如果你的前端应用和后端 API 服务器没有运行在同一个主机上，你需要在开发环境下将 API 请求代理到 API 服务器。这个问题可以通过 vue.config.js 中的 devServer.proxy 选项来配置。
-      '/mobile': {
-        // 你要跨域的域名(包含host、端口号,切记：一定要带上http头);
-        // 同一个域名只能设置一次跨域，否则重复报错！
-        target: target,
-        ws: true,
-        changOrigin: true // 是否跨域，设置为true;(必须)
-        /** (可选设置----如果访问域名根目录，那这里必须设置重定向了)
-         * 是否要把'/api'目录重定向去哪里，跟目录还是其他（可选）
-         * 如果设置了,那在axios的路径中/article替换成https://baike.baidu.com/相当于根目录一样！
-         *  */
-      }
+      // '/mobile': {
+      //   // 你要跨域的域名(包含host、端口号,切记：一定要带上http头);
+      //   // 同一个域名只能设置一次跨域，否则重复报错！
+      //   target: target,
+      //   ws: true,
+      //   changOrigin: true // 是否跨域，设置为true;(必须)
+      //   /** (可选设置----如果访问域名根目录，那这里必须设置重定向了)
+      //    * 是否要把'/api'目录重定向去哪里，跟目录还是其他（可选）
+      //    * 如果设置了,那在axios的路径中/article替换成https://baike.baidu.com/相当于根目录一样！
+      //    *  */
+      // }
+      "/api": {
+        // target: "http://118.24.85.92:9001", // 跨域访问
+        target: "http://www.admin.cm/admin", // 跨域访问
+        ws: true, // 是否启用websockets
+        changOrigin: true, //开启代理
+        secure: false, // 将安全设置为false,才能访问https开头的
+        pathRewrite: {
+            '^/api': '/' //这里理解成用‘/api’代替target里面的地址
+        }
+    }
     }
   }
 }
